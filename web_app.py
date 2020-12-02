@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt 
+from matplotlib import pyplot as plt 
 import streamlit as st
 from sklearn.cluster import KMeans
 from sklearn.linear_model import Lasso
