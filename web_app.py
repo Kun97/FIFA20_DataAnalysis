@@ -27,10 +27,12 @@ def read_data():
 
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3, random_state=1)
 
-    return players_data, recommender_data, scaler_data, X_train, y_train, X_test, y_test, X_train1, y_train1, X_test1, y_test1
+    name = players_data['Name']
+
+    return players_data, recommender_data, scaler_data, X_train, y_train, X_test, y_test, X_train1, y_train1, X_test1, y_test1, name
 
 # data reading
-players_data, recommender_data, scaler_data, X_train, y_train, X_test, y_test, X_train1, y_train1, X_test1, y_test1 = read_data()
+players_data, recommender_data, scaler_data, X_train, y_train, X_test, y_test, X_train1, y_train1, X_test1, y_test1, name = read_data()
 
 
 
@@ -104,16 +106,25 @@ def random_forest(n_estimators,min_samples_split,max_depth,bootstrap):
 
 
        
+st.sidebar.title("About this project:")
+st.sidebar.subheader('Data:')
+st.sidebar.write('The dataset contains 18,278 players with 104 different attributes like age, overall score, value and skill abilities.')
+st.sidebar.subheader('What you can do here:')
+st.sidebar.write('1. Using recommender system to find alternative players')
+st.sidebar.write('2. Check the result for different parameters settings of different ML algorithms')
+st.sidebar.subheader('Author:')
+st.sidebar.write('Kun Yang')
+st.sidebar.write('Email: kyang23@syr.edu')
+st.sidebar.markdown('Dataset Link: https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset?select=players_20.csv' )
 
 
+st.title('FIFA20 Player Dataset Analysis')
 
-st.title('FIFA20 Player Datset Analysis')
 # recommender system
 st.header('Recommender System')
-name = st.text_input('Please enter the name of player(limit 1): (ex. Piqué, L. Messi)', value='L. Messi')
+select_name = st.selectbox('Please choose the player', name)
 num = st.slider('Choose the number of alternative players:', 1, 100, 5, 1 )
-
-st.write(recommender_system(name,num))
+st.write(recommender_system(select_name,num))
 
 # regression
 st.header('Regression Analysis')
@@ -127,7 +138,7 @@ fig, ax = plt.subplots()
 ax.scatter(y_test, ls_pred)
 ax.plot(y_test, y_test, ':r')
 fig.suptitle("Lasso Result", y=.92)
-ax.set_xlabel("Real Value (After Standardization)")
+ax.set_xlabel("Real Value (After Standardization)") 
 ax.set_ylabel("Predict Value (After Standardization)")  
 st.pyplot(fig)
 
